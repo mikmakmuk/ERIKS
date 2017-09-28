@@ -50,16 +50,6 @@ module.exports =
 	{
 		channelID : 'xxxxx',
 		token : 	'xxxxxxxxx'	// Access token 
-	
-	
-		// token: 'xoxb-247776202774-1Nd1W3XmUIA93PMPdSiyOmJT',
-		// channel: 'coffeestatus',
-		// clientID: '237692287926.246059117265',
-		// clientSecret : '23079c021f65c018e2878283ad60917f',
-		// verificationToken: 'PmSXhW2Mn2ykBj8ihyeOQJdb',
-		// oauthToken: 'xoxp-237692287926-237397489715-246913517762-35ffbea62631e305367831662f421381',
-		//	 'xoxp-237692287926-237397489715-246971793380-e4bb53a17bd6db9fd5595dcfdcd97683',
-		// webHook: 'https://hooks.slack.com/services/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'
 	}
 
 };
