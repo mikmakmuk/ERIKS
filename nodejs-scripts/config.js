@@ -5,7 +5,7 @@ module.exports =
 	Where to store log files for readings
 	Must be writable by node process
 	 */	
-	storagePath: '/Users/eriksklotins/Documents/web-projects/coffee-grunt/',
+	storagePath: '/Users/eriksklotins/Documents/web-projects/coffee-grunt/nodejs-scripts/data',
 
 
 	/*
