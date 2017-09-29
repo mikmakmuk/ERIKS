@@ -55,7 +55,6 @@ module.exports.lowMessage = function(timestamp, value, limits)
 	return [
 		getGreeting(),
 		getWarning(limits),
-		getOk()
 	].join("\n");
 };
 module.exports.criticalMessage = function(timestamp, value, limits)
@@ -63,6 +62,5 @@ module.exports.criticalMessage = function(timestamp, value, limits)
 	return [
 		getGreeting(),
 		getScream(value,limits),
-		getOk()
 	].join("\n");
 };

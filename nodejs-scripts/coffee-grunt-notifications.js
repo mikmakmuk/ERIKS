@@ -21,11 +21,13 @@ var store = new storage(config);
 function checkReadings(channel,slackChannel, limits, msg)
 {
 	store.readLastEntries(channel,new Date().getTime(),1,(reading)=>{
+
+
 	if (reading.length > 0)
-	{
+	{	
+
 		let value = parseFloat(reading[0].data);
 		let timestamp = parseInt(reading[0].timestamp);
-		
 		/*
 			Checking differnet things
 		 */

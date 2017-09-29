@@ -1,2 +1,2 @@
 #!/bin/sh
-node coffee-grunt-notifications.js
+node /home/ekx/coffee-grunt/coffee-grunt-notifications.js
