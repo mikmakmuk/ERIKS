@@ -1,63 +1,36 @@
 "use strict";
 const https = require('https');
 const config = require('./config.js');
-
+const slackApi = require('./slack-api.js');
+var coffeeMsg = require('./messages.js');
 // generic wrapper to make calls 
 // https://api.slack.com/methods/
-class SlackAPI
+
+var slack = new slackApi(config.slackBot.token, false);
+
+
+slack.apiCall('channels.info',{channel:'C78JPFC84'},(response)=> 
 {
 
-	constructor (token)
+	let channelMembersId = response.channel.members;
+	slack.apiCall('users.list',{},(r)=>
 	{
-		this.token = token;
-		this.pretty = 0;
-	}
-	
-	nop(data){ };
+		let users = r.members;
 
-	apiCall(funct, params, successCallback, errorCallback)
-	{
-		successCallback = successCallback || this.nop;
-		errorCallback = errorCallback || this.nop;
-		params = params || {};
+		// console.log(users);
+		let coffeeDrinkers = users.filter((user)=>{return channelMembersId.indexOf(user.id)>=0 && user.is_bot == false;});
+		let randomGuy = coffeeDrinkers[Math.floor(Math.random()*coffeeDrinkers.length)];
+		
 
-		var paramsBuf = [];
+		// coffeeDrinkers.map((a)=>{console.log(a.real_name)});
+		// console.log("Coffee duty:", randomGuy.real_name);
+		slack.apiCall('chat.postMessage',{channel:config.slackBot.channelID, text: coffeeMsg.reminder(randomGuy) });
 
-		params.token = this.token;
-		params.pretty = this.pretty;
-		for(let p in params )
-		{
-			paramsBuf.push(p+'='+params[p]);
-		}
+	});
 
-		https.get('https://slack.com/api/'+funct+'?'+paramsBuf.join('&')  , (resp)=>
-		{
-			let data = '';
-			resp.on('data', (chunk) => {data += chunk;});
-			resp.on('end', () => {successCallback(JSON.parse(data)) });
-		})
-		.on("error", (err) => {console.log("Error: " + err.message);errorCallback(JSON.parse(err));  });
-
-	}
+});
 
 
-
-
-	// this.usersList = function(callback)
-	// {
-	// 	this.apiCall('users.list', (data)=>{callback(data);}, (err)=>{});
-	// };
-
-
-	// this.apiCall = function(channelID, text)
-	// {
-	// 	this.request('chat.postMessage', (data)=>{callback(data);}, (err)=>{});	
-	// }
-
-
-}
-
-module.exports = SlackAPI;
 // var a = new SlackAPI(config.slackBot.serlSwedenToken);
 
 // This is how you send a message & mention someone

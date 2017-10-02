@@ -13,7 +13,7 @@ class SlackAPI
 	constructor (token, useConsole)
 	{
 		this.token = token;
-		this.useConsole = false;//useConsole || false;
+		this.useConsole = useConsole === true;
 	}
 	
 	nop(data){ };
@@ -33,12 +33,13 @@ class SlackAPI
 		}
 
 
-		if (this.useConsole)
+		if (this.useConsole )
 		{
 			console.log('Slack API Call: ', funct, params);
 		}
 		else
 		{
+			// console.log('Slack API Call: ', funct, params);
 			// console.log('https://slack.com/api/'+funct+'?'+paramsBuf.join('&')  );
 			https.get('https://slack.com/api/'+funct+'?'+paramsBuf.join('&')  , (resp)=>
 			{

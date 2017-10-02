@@ -32,6 +32,17 @@ var interval = function(weight)
 	return "No coffee weight readings for a long time..\nIs it a hardware problem, a management problem, or an integration problem?";
 };
 
+module.exports.reminder = function(user)
+{
+	return [
+		"<@"+user.id+">, could you please go and buy some more coffee?",
+		"If you don't know how to do it, instructions are here:",
+		'https://serl.wikispaces.com/On%20buying%20SERL%20coffee' 
+
+	].join("\n");
+
+};
+
 
 module.exports.normalMessage = function(timestamp, value, limits)
 {

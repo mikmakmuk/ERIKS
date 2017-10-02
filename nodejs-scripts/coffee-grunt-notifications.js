@@ -43,7 +43,7 @@ function checkReadings(channel,slackChannel, limits, msg)
 		{
 			// console.log('Coffee level normal');
 			slack.apiCall('chat.postMessage',{channel:slackChannel, as_user:1,  text: 
-					msg.normalMessage(new Date().getTime(), value, limits)
+				msg.normalMessage(new Date().getTime(), value, limits)
 			});
 			return;
 		}
@@ -52,8 +52,10 @@ function checkReadings(channel,slackChannel, limits, msg)
 		{
 			//console.log('Coffee level low but not yet critical');
 			slack.apiCall('chat.postMessage',{channel:slackChannel, as_user:1,  text: 
-					msg.lowMessage(new Date().getTime(), value, limits)
-				});
+				msg.lowMessage(new Date().getTime(), value, limits)
+				notifyRandomGuy(slackChannel)
+			});
+			
 			return;
 		}
 
@@ -67,6 +69,34 @@ function checkReadings(channel,slackChannel, limits, msg)
 		}
 
 	}
+	});
+}
+
+
+// TODO: save the state somewhere, notify the same user again if readings are not back 
+// to normal after 24h
+function notifyRandomGuy(channel)
+{
+
+	slack.apiCall('channels.info',{channel:channel},(response)=> 
+	{
+
+		let channelMembersId = response.channel.members;
+		slack.apiCall('users.list',{},(r)=>
+		{
+			let users = r.members;
+
+			// console.log(users);
+			let coffeeDrinkers = users.filter((user)=>{return channelMembersId.indexOf(user.id)>=0 && user.is_bot == false;});
+			let randomGuy = coffeeDrinkers[Math.floor(Math.random()*coffeeDrinkers.length)];
+			
+
+			// coffeeDrinkers.map((a)=>{console.log(a.real_name)});
+			// console.log("Coffee duty:", randomGuy.real_name);
+			slack.apiCall('chat.postMessage',{channel:channel, text: coffeeMsg.reminder(randomGuy) });
+
+		});
+
 	});
 }
 checkReadings('unterk/f/erikscoffee',config.slackBot.channelID, config.coffeeLevels, coffeeMsg );
