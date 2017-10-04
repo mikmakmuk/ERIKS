@@ -29,7 +29,7 @@ class SlackAPI
 		params.token = this.token;
 		for(let p in params )
 		{
-			paramsBuf.push(p+'='+escape(params[p]));
+			paramsBuf.push(p+'='+encodeURI(params[p]));
 		}
 
 
