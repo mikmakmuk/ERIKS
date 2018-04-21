@@ -1,3 +1,10 @@
+# ERIKS
+Software collection to fuel ERIKS (**E**nhanced **R**eliable **I**ntegrated **K**offee **S**upply).
+Contains:
+1. Logic for the scale (eriks_sensor)
+2. Script for logging sensor readings
+3. Script for pushing notifications to Slack
+
 # Security
 ## HTTPS
 We use letsencrypt certificates on the server side (mosquitto, telegraf, influxdb, grafana). This means that the certificates renewed every 3 months. 
@@ -49,3 +56,4 @@ mosquitto_pub -h lmsteiner.com -p 64365 -m "eriks kg=2.3,v=3.0" -t eriks/coffees
 #### Influxdb
 Connect to database (check telegraf config for username and password):
 influx -host localhost -port 61222 -ssl -unsafeSsl -username XXX -password YYY
+
